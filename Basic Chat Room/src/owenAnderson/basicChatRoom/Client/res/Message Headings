@@ -1,0 +1,4 @@
+CONNECTIONEND - A message that lets the sever/other client know that the connection is being cut
+OK - An OK signal sent for any number of reasons
+MESSAGE <messsage> - Lets the program that a normal message is being sent
+PASSWORD
