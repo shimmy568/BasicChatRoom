@@ -24,6 +24,7 @@ public class Client {
 	public static Client window;
 	private static String username = "Test", usernameThem;
 	private JTextField messageBox;
+	private JButton sendMessage;
 	JTextArea messageHistory;
 	private ConnectionManager con;
 
@@ -66,10 +67,15 @@ public class Client {
 		frame.getContentPane().add(messageBox);
 		messageBox.setColumns(10);
 		
-		JButton sendMessage = new JButton("Send...");
+		sendMessage = new JButton("Send...");
 		sendMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				sendMsg();
+				if(con != null){
+					sendMsg();
+				}else{
+					messageBox.setText("");
+					window.printToScreen("ERROR: could not send message not connected to anything (silly)\n");
+				}
 			}
 		});
 		sendMessage.setBounds(10, 351, 89, 23);
@@ -105,6 +111,10 @@ public class Client {
 		JMenuItem connectToIP = new JMenuItem("Connect");
 		connectToIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(con != null){
+					con.stopThread();
+					window.printToScreen("Ending connection\n");
+				}
 				try {
 					openDialogWindow(Class.forName("owenAnderson.basicChatRoom.Client.ConnectWindow"));
 				} catch (ClassNotFoundException e) {
@@ -117,6 +127,10 @@ public class Client {
 		JMenuItem mntmSimpleHost = new JMenuItem("Simple Host");
 		mntmSimpleHost.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(con != null){
+					con.stopThread();
+					window.printToScreen("Ending connection\n");
+				}
 				try {
 					openDialogWindow(Class.forName("owenAnderson.basicChatRoom.Client.HostCreate"));
 				} catch (ClassNotFoundException e) {
@@ -124,12 +138,17 @@ public class Client {
 				}
 			}
 		});
+		
+		JMenuItem mntmBrowseLanServers = new JMenuItem("Browse Lan Servers");
+		Network.add(mntmBrowseLanServers);
 		Network.add(mntmSimpleHost);
 		
 		JMenuItem disconnect = new JMenuItem("Disconnect");
 		disconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				con.sendMsg("DISCONNECTED");
 				con.stopThread();
+				con = null;
 			}
 		});
 		Network.add(disconnect);
@@ -168,6 +187,7 @@ public class Client {
 		
 		JMenuItem mntmSetFont = new JMenuItem("Set Font");
 		mnWindow.add(mntmSetFont);
+		frame.getRootPane().setDefaultButton(sendMessage);
 	}
 	
 	/**
@@ -200,7 +220,7 @@ public class Client {
 	}
 	
 	void connectToServer(String host, int port){
-		con.stopThread();
+		if(con != null) con.stopThread();
 		con = new ConnectionManager(host, port, null, username);
 	}
 
@@ -213,6 +233,9 @@ public class Client {
 			setTheirUsername(string.substring(9));
 		}else if(string.startsWith("INFO")){
 			printToScreen("PARTNER DISCONNECTED\n");
+		}else if(string.startsWith("DISCONNECTED")){
+			Client.window.printToScreen(usernameThem + " disconnected\n");
+			con.stopThread();
 		}
 	}
 	

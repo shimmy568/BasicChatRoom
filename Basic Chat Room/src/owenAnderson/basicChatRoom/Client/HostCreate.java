@@ -13,6 +13,7 @@ import javax.swing.JPasswordField;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class HostCreate extends BasicDialogWindow {
 
@@ -51,6 +52,10 @@ public class HostCreate extends BasicDialogWindow {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(10, 92, 86, 20);
 		contentPanel.add(passwordField);
+		
+		JCheckBox chckbxBroadcastToLan = new JCheckBox("Broadcast To LAN");
+		chckbxBroadcastToLan.setBounds(126, 35, 207, 23);
+		contentPanel.add(chckbxBroadcastToLan);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

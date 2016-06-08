@@ -43,7 +43,7 @@ public class ConnectionManager {
 			
 		} catch (UnknownHostException e) {
 			System.out.println("IP not found");
-			Client.window.printToScreen("Error with finding ip");
+			Client.window.printToScreen("Error with finding IP");
 			e.printStackTrace();
 		} catch (IOException e) {
 			Client.window.printToScreen("Could not connect");
@@ -51,6 +51,7 @@ public class ConnectionManager {
 			e.printStackTrace();
 		}
 		
+		Client.window.printToScreen("Connection made!\n");
 		Runnable reader = startListener();
 		th = new Thread(reader, "readerThread");
 		th.start();
@@ -58,7 +59,7 @@ public class ConnectionManager {
 		
 	}
 	
-	public ConnectionManager(int port, String pass, String username){
+	public ConnectionManager(int port, String pass, String username, boolean brodcast){
 		this.port = port;
 		this.username = username;
 		if(pass != null){
@@ -66,6 +67,7 @@ public class ConnectionManager {
 		}
 		
 		try {
+			
 			sSock = new ServerSocket(this.port);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,7 +91,7 @@ public class ConnectionManager {
 							try {
 								Client.window.printToScreen("Waiting for connection...\n");
 								sock = sSock.accept();
-								Client.window.printToScreen("Connection made!");
+								Client.window.printToScreen("Connection made!\n");
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -129,7 +131,7 @@ public class ConnectionManager {
 	/**
 	 * A message that shuts down the connection
 	 */
-	public void endConnection(){
+	private void endConnection(){
 		running = false;
 		
 		try {
@@ -144,7 +146,7 @@ public class ConnectionManager {
 	}
 	
 	public void stopThread(){
-		Client.window.printToScreen("Ending connection");
+		Client.window.printToScreen("Ending connection\n");
 		endConnection();
 		running = false;
 	}
