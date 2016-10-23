@@ -17,6 +17,9 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.SpringLayout;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class Client {
 
@@ -56,9 +59,9 @@ public class Client {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/ClientIcon.png")));
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 878, 432);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/ClientIcon.png")));
+		frame.setBounds(100, 100, 878, 430);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -68,6 +71,7 @@ public class Client {
 		messageBox.setColumns(10);
 		
 		sendMessage = new JButton("Send...");
+		sendMessage.setBounds(10, 351, 89, 23);
 		sendMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(con != null){
@@ -78,13 +82,12 @@ public class Client {
 				}
 			}
 		});
-		sendMessage.setBounds(10, 351, 89, 23);
 		frame.getContentPane().add(sendMessage);
 		
 		JScrollPane scroll = new JScrollPane();
+		scroll.setBounds(10, 11, 744, 330);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setBounds(10, 11, 742, 330);
 		frame.getContentPane().add(scroll);
 		
 		messageHistory = new JTextArea();
@@ -93,13 +96,13 @@ public class Client {
 		messageHistory.setLineWrap(true);
 		
 		JLabel Face = new JLabel("");
-		Face.setIcon(new ImageIcon(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/Face.png")));
 		Face.setBounds(761, 23, 100, 100);
+		Face.setIcon(new ImageIcon(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/Face.png")));
 		frame.getContentPane().add(Face);
 		
 		JLabel Text = new JLabel("");
-		Text.setIcon(new ImageIcon(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/UCLS.png")));
 		Text.setBounds(762, 134, 100, 238);
+		Text.setIcon(new ImageIcon(Client.class.getResource("/owenAnderson/basicChatRoom/Client/res/UCLS.png")));
 		frame.getContentPane().add(Text);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -245,7 +248,7 @@ public class Client {
 	
 	void createHost(int port){
 		if(con != null) con.stopThread();
-		con = new ConnectionManager(port, null, username);
+		con = new ConnectionManager(port, null, username, false);
 	}
 	
 	void sendMsg(){

@@ -59,6 +59,13 @@ public class ConnectionManager {
 		
 	}
 	
+	/**
+	 * Constructor for starting a new server (for room chat)
+	 * @param port the port that the server will be running on
+	 * @param pass the password for the server <not implemented>
+	 * @param username The username of the person who created the server
+	 * @param brodcast Weather the server is to be broadcast over LAN
+	 */
 	public ConnectionManager(int port, String pass, String username, boolean brodcast){
 		this.port = port;
 		this.username = username;
